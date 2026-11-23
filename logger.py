@@ -7,7 +7,7 @@ from typing import Optional
 LOG_FORMAT = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 PROJECT_DIR = Path(__file__).resolve().parent
-DEFAULT_LOG_FILE = PROJECT_DIR / "qp_parser.log"
+DEFAULT_LOG_FILE = PROJECT_DIR / "qp_api.log"
 
 
 def _has_file_handler(root_logger: logging.Logger, log_file: Path) -> bool:
@@ -52,6 +52,6 @@ def setup_logging(
 
     logging.getLogger("urllib3").setLevel(logging.WARNING)
 
-    logger = logging.getLogger("qp_parser")
+    logger = logging.getLogger("qp_api")
     logger.info("Логирование запущено (уровень: %s, файл: %s)", log_level, log_file)
     return logger

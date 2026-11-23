@@ -1,5 +1,8 @@
+import logging
 import requests
 from config import BASE_URL
+
+logger = logging.getLogger("qp_api")
 
 
 def get_games():
@@ -9,19 +12,37 @@ def get_games():
 
     url = f"{BASE_URL}/games/schedule/163"
 
-    response = requests.get(url)
-    response.raise_for_status()
+    logger.info("Запрос расписания игр Белграда")
 
-    result = response.json()
+    try:
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()
 
-    if result["status"] != "ok":
-        print("Ошибка получения расписания")
+        result = response.json()
+
+        if result["status"] != "ok":
+            logger.error("API вернул ошибку при получении расписания")
+            print("Ошибка получения расписания")
+            return []
+
+        games = result["data"]["data"]
+
+        logger.info("Получено игр: %s", len(games))
+
+        return games
+
+    except requests.exceptions.RequestException:
+        logger.exception("Ошибка HTTP-запроса при получении расписания")
         return []
 
-    return result["data"]["data"]
+    except (ValueError, KeyError, TypeError):
+        logger.exception("Ошибка обработки ответа API")
+        return []
 
 
 def show_games(games):
+    logger.info("Вывод расписания игр в консоль")
+
     print("\nРАСПИСАНИЕ QUIZ PLEASE — БЕЛГРАД")
     print("=" * 55)
 
@@ -35,3 +56,5 @@ def show_games(games):
         print(f"Ссылка: {game['link_short']}")
 
     print("\n" + "=" * 55)
+
+    logger.info("Расписание выведено в консоль")
