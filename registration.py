@@ -37,7 +37,7 @@ def register_team(game):
         }]
     }
 
-    print("\nПроверь данные:")
+    print("\nПроверь данные:") #лишнее
     print(json.dumps(payload, indent=4, ensure_ascii=False))
 
     confirm = input("\nОтправить регистрацию? (y/n): ")
