@@ -1,6 +1,8 @@
 import json
 import requests
 
+from config import *
+
 
 def register_team(game):
 
@@ -14,12 +16,12 @@ def register_team(game):
     people_count = int(input("Количество участников: "))
 
     payload = {
-        "title": title,
-        "captain": captain,
-        "phone": phone,
-        "email": email,
+        "title": TITLE,
+        "captain": CAPTAIN,
+        "phone": PHONE,
+        "email": EMAIL,
         "comment": "",
-        "people_count": people_count,
+        "people_count": PEOPLE_COUNT,
         "is_open_for_players": False,
         "joined_to_public_token": None,
         "count_paid": 0,
@@ -35,17 +37,20 @@ def register_team(game):
         "table_size": None,
         "game_id": game["id"],
         "utm": {},
-        "custom_fields": []
+        "custom_fields": [{
+            "field_id": 22062, #telegram
+            "value": TELEGRAM_NAME
+        }]
     }
 
-    # Дополнительные поля конкретной игры
-    for field in game.get("custom_fields", []):
-        value = input(f"{field['title']}: ")
-
-        payload["custom_fields"].append({
-            "field_id": field["id"],
-            "value": value
-        })
+    # # Дополнительные поля конкретной игры
+    # for field in game.get("custom_fields", []):
+    #     value = input(f"{field['title']}: ")
+    #
+    #     payload["custom_fields"].append({
+    #         "field_id": field["id"],
+    #         "value": value
+    #     })
 
     print("\nПроверь данные:")
     print(json.dumps(payload, indent=4, ensure_ascii=False))

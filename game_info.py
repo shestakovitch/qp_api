@@ -1,7 +1,6 @@
 import requests
+from config import BASE_URL
 
-
-BASE_URL = "https://api.quizplease.ru/api"
 
 # --------------------------------------------------
 # 1. Получение расписания Белграда
@@ -33,6 +32,5 @@ def show_games(games):
         print(f"Цена: {game['current_price']} дин.")
         print(f"Свободные места: {game['people_have_places_to_reserve']}")
         print(f"Ссылка: {game['link_short']}")
-        print(f"ID игры: {game['id']}")
 
     print("\n" + "=" * 55)
