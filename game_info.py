@@ -2,11 +2,11 @@ import requests
 from config import BASE_URL
 
 
-# --------------------------------------------------
-# 1. Получение расписания Белграда
-# --------------------------------------------------
-
 def get_games():
+    """
+    Получение расписания Белграда
+    """
+
     url = f"{BASE_URL}/games/schedule/163"
 
     response = requests.get(url)
