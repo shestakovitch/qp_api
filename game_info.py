@@ -20,6 +20,7 @@ def get_games():
 
     return result["data"]["data"]
 
+
 def show_games(games):
     print("\nРАСПИСАНИЕ QUIZ PLEASE — БЕЛГРАД")
     print("=" * 55)

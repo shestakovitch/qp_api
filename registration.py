@@ -5,7 +5,6 @@ from config import *
 
 
 def register_team(game):
-
     print("\nРЕГИСТРАЦИЯ КОМАНДЫ")
     print("=" * 40)
 
@@ -32,12 +31,12 @@ def register_team(game):
         "game_id": game["id"],
         "utm": {},
         "custom_fields": [{
-            "field_id": 22062, #telegram
+            "field_id": 22062,  # telegram
             "value": TELEGRAM_NAME
         }]
     }
 
-    print("\nПроверь данные:") #лишнее
+    print("\nПроверь данные:")  # лишнее
     print(json.dumps(payload, indent=4, ensure_ascii=False))
 
     confirm = input("\nОтправить регистрацию? (y/n): ")

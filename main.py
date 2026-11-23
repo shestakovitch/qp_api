@@ -2,9 +2,7 @@ from game_info import get_games, show_games
 from registration import register_team
 
 
-
 def main():
-
     games = get_games()
 
     if not games:
@@ -33,19 +31,19 @@ def main():
 
     for choice in choices:
 
-            selected_game = games[choice - 1]
+        selected_game = games[choice - 1]
 
-            print("\n" + "=" * 40)
-            print("Выбрана игра:")
-            print(selected_game["title"], "#", selected_game["game_number"], sep='')
-            print(selected_game["date"])
+        print("\n" + "=" * 40)
+        print("Выбрана игра:")
+        print(selected_game["title"], "#", selected_game["game_number"], sep='')
+        print(selected_game["date"])
 
-            confirm = input("Перейти к регистрации? (y/n): ")
+        confirm = input("Перейти к регистрации? (y/n): ")
 
-            if confirm.lower() == "y":
-                register_team(selected_game)
-            else:
-                print("Регистрация пропущена")
+        if confirm.lower() == "y":
+            register_team(selected_game)
+        else:
+            print("Регистрация пропущена")
 
     print("\nОбработка выбранных игр завершена")
 
