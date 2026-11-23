@@ -9,12 +9,6 @@ def register_team(game):
     print("\nРЕГИСТРАЦИЯ КОМАНДЫ")
     print("=" * 40)
 
-    title = input("Название команды: ")
-    captain = input("Имя капитана: ")
-    phone = input("Телефон: ")
-    email = input("Email: ")
-    people_count = int(input("Количество участников: "))
-
     payload = {
         "title": TITLE,
         "captain": CAPTAIN,
@@ -42,15 +36,6 @@ def register_team(game):
             "value": TELEGRAM_NAME
         }]
     }
-
-    # # Дополнительные поля конкретной игры
-    # for field in game.get("custom_fields", []):
-    #     value = input(f"{field['title']}: ")
-    #
-    #     payload["custom_fields"].append({
-    #         "field_id": field["id"],
-    #         "value": value
-    #     })
 
     print("\nПроверь данные:")
     print(json.dumps(payload, indent=4, ensure_ascii=False))
