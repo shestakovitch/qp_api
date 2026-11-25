@@ -1,5 +1,6 @@
 import json
 import requests
+from urllib.parse import quote
 
 from config import *
 from logger import setup_logging
@@ -97,12 +98,15 @@ def register_team(game):
 
         print("\nРЕГИСТРАЦИЯ СОЗДАНА!")
 
+        gmaps_url = f"https://maps.google.com/?q={quote(game['place']['address'])}"
+
         message = (
             "Вы зарегистрировались на игру:\n\n"
             f"{game['title']} #{game['game_number']}\n"
             f"Дата: {game['date']}\n"
             f"Место: {game['place']['title']}\n"
             f"Адрес: {game['place']['address']}\n"
+            f"{gmaps_url}\n"
             f"Цена: {game['current_price']} дин."
         )
 
