@@ -54,7 +54,7 @@ def main():
             game_date
         )
 
-        print("\n" + "=" * 40)
+        print("\n" + "=" * 65)
         print("Выбрана игра:")
         print(game_title, "#", game_number, sep='')
         print(game_date)

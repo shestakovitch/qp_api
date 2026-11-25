@@ -44,7 +44,7 @@ def show_games(games):
     logger.info("Вывод расписания игр в консоль")
 
     print("\nРАСПИСАНИЕ QUIZ PLEASE — БЕЛГРАД")
-    print("=" * 55)
+    print("=" * 65)
 
     for index, game in enumerate(games, start=1):
         print(f"\n{index}. {game['title']} #{game['game_number']}")
@@ -53,6 +53,6 @@ def show_games(games):
         print(f"Адрес: {game['place']['address']}")
         print(f"Цена: {game['current_price']} дин.")
 
-    print("\n" + "=" * 55)
+    print("\n" + "=" * 65)
 
     logger.info("Расписание выведено в консоль")
