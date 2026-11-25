@@ -3,7 +3,7 @@ import requests
 
 from config import *
 from logger import setup_logging
-
+from sender import send_message
 
 logger = setup_logging()
 
@@ -42,16 +42,6 @@ def register_team(game):
         }]
     }
 
-    print("\nПроверь данные:")
-    print(json.dumps(payload, indent=4, ensure_ascii=False))
-
-    confirm = input("\nОтправить регистрацию? (y/n): ")
-
-    if confirm.lower() != "y":
-        logger.info("Регистрация отменена пользователем. ID игры: %s", game["id"])
-        print("Регистрация отменена")
-        return
-
     url = f"{BASE_URL}/games/records"
 
     headers = {
@@ -71,6 +61,16 @@ def register_team(game):
     except requests.RequestException:
         logger.exception("Ошибка HTTP-запроса при регистрации. ID игры: %s", game["id"])
         print("\nОшибка отправки запроса")
+
+        try:
+            send_message(
+                f"❌ Ошибка регистрации команды {TITLE}\n"
+                f"ID игры: {game['id']}\n"
+                f"Не удалось отправить запрос к API."
+            )
+        except requests.RequestException:
+            logger.exception("Ошибка отправки уведомления в Telegram")
+
         return
 
     logger.info("Получен ответ API. HTTP статус: %s", response.status_code)
@@ -80,10 +80,7 @@ def register_team(game):
     try:
         result = response.json()
     except ValueError:
-        logger.error(
-            "Не удалось разобрать JSON-ответ API. HTTP статус: %s",
-            response.status_code
-        )
+        logger.error("Не удалось разобрать JSON-ответ API. HTTP статус: %s", response.status_code)
         print(response.text)
         return
 
@@ -99,16 +96,37 @@ def register_team(game):
         )
 
         print("\nРЕГИСТРАЦИЯ СОЗДАНА!")
-        print("ID регистрации:", data["id"])
-        print("Название команды:", data["game_team"]["title"])
-        print("Токен регистрации:", data["public_token"])
-        print("Количество мест:", data["seats"]["seats_total"])
-        print("Свободных мест:", data["seats"]["seats_free"])
+
+        message = (
+            "Вы зарегистрировались на игру:\n\n"
+            f"{game['title']} #{game['game_number']}\n"
+            f"Дата: {game['date']}\n"
+            f"Место: {game['place']['title']}\n"
+            f"Адрес: {game['place']['address']}\n"
+            f"Цена: {game['current_price']} дин."
+        )
+
+        try:
+            send_message(message)
+        except requests.RequestException:
+            logger.exception("Ошибка отправки уведомления о регистрации в Telegram")
 
     else:
+        error_message = result.get("message", "Причина не указана")
+
         logger.warning(
             "Не удалось зарегистрировать команду. ID игры: %s. Ответ API: %s",
             game["id"],
-            result.get("message", "Причина не указана")
+            error_message
         )
+
         print("\nНе удалось зарегистрировать команду")
+
+        try:
+            send_message(
+                f"❌ Не удалось зарегистрировать команду {TITLE}\n"
+                f"ID игры: {game['id']}\n"
+                f"Причина: {error_message}"
+            )
+        except requests.RequestException:
+            logger.exception("Ошибка отправки уведомления об ошибке регистрации в Telegram")

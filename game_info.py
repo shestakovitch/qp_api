@@ -52,8 +52,6 @@ def show_games(games):
         print(f"Место: {game['place']['title']}")
         print(f"Адрес: {game['place']['address']}")
         print(f"Цена: {game['current_price']} дин.")
-        print(f"Свободные места: {game['people_have_places_to_reserve']}")
-        print(f"Ссылка: {game['link_short']}")
 
     print("\n" + "=" * 55)
 
